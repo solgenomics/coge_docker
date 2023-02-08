@@ -38,6 +38,9 @@ RUN pip install pyzmq matplotlib numpy seaborn natsort requests scipy sklearn
 
 RUN Rscript -e 'install.packages( c("dplyr", "useful", "gridExtra") )'
 
+COPY ./coge_apache.conf /etc/apache2/sites-available/apache2.conf
+COPY ./coge.conf /home/production/coge/coge.conf
+
 COPY ./entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
