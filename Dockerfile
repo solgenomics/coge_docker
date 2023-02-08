@@ -24,9 +24,8 @@ RUN apt-get -y install apache2 aragorn ncbi-blast+ ncbi-blast+-legacy build-esse
 RUN cd /home/production
 RUN git clone --recursive https://github.com/LyonsLab/coge.git /home/production/coge
 
-
-
 RUN cd /home/production/coge/web
+RUN bash /home/production/coge/setup.sh
 RUN bash /home/production/coge/web/setup.sh
 
 RUN xargs -a /home/production/coge/modules.txt cpanm --force
