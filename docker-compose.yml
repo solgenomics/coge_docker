@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  cogewebapi:
+    build: .
+    volumes:
+      - type: bind
+        source: ./coge.conf
+        target: /opt/apache2/coge/coge.conf
+      # cogedata:/opt/cogedata
+    ports:
+      - 60500:80      
+    image: coge
+    # depends_on:
+    #   - cogedb
+    container_name: coge_main
+
+  cogedb:
+    volumes:
+       - dbdata:/var/lib/mysql
+    image: mariadb:11.0
+    container_name: coge_db
+    # restart: always
+    # environment:
+    #   MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1      
+    # healthcheck:    
+    #   interval: 10s
+
+volumes:
+  cogewebapi:
+  dbdata:
+  
