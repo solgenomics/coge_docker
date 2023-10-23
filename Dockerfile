@@ -119,8 +119,6 @@ COPY ./coge_changes/*.* /opt/apache2/coge/
 RUN chmod 777 /opt/apache2/coge/api.sh /opt/apache2/coge/api.log
 RUN chown www-data:www-data /opt/apache2/coge/api.log
 
-COPY ./entrypoint.sh /entrypoint.sh
-
 # jbroswe ver 1.12.0 download and configuration
 WORKDIR /opt/apache2/coge/web/js/jbrowse
 RUN wget https://jbrowse.org/releases/JBrowse-1.12.0.zip
@@ -129,6 +127,8 @@ RUN cp -RT /opt/apache2/coge/web/js/jbrowse/JBrowse-1.12.0  /opt/apache2/coge/we
 RUN cpanm Bio::DB::SeqFeature::Store --force
 RUN ./setup.sh
 COPY ./jbrowse /opt/apache2/coge/web/js/jbrowse
+
+COPY ./entrypoint.sh /entrypoint.sh
 
 WORKDIR /opt/apache2/coge/
 EXPOSE 80

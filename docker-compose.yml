@@ -6,26 +6,38 @@ services:
       - type: bind
         source: ./coge.conf
         target: /opt/apache2/coge/coge.conf
-      # cogedata:/opt/cogedata
+      - type: bind
+        source: ./entrypoint.sh
+        target: /entrypoint.sh
+      # cogedata:/opt/cogedata      
+      - ${PWD}/scratch:/scratch
+      - ${PWD}/work_queue:/work_queue
+      - ${PWD}/storage:/storage
     ports:
       - 60500:80      
     image: coge
-    # depends_on:
-    #   - cogedb
+    depends_on:
+      - cogedb    
     container_name: coge_main
 
   cogedb:
     volumes:
-       - dbdata:/var/lib/mysql
+      - ${PWD}/mariadb:/var/lib/mysql
     image: mariadb:11.0
     container_name: coge_db
-    # restart: always
-    # environment:
-    #   MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1      
-    # healthcheck:    
-    #   interval: 10s
+    restart: on-failure
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1            
+      # MYSQL_ROOT_PASSWORD: password
+      # MYSQL_DATABASE: mydatabase
+      # MYSQL_USER: user
+      # MYSQL_PASSWORD: password    
+    # logging:
+    #   driver: syslog
+    
 
 volumes:
   cogewebapi:
   dbdata:
-  
+
+
